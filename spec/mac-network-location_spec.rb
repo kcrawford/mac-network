@@ -1,4 +1,3 @@
-require 'mac-network'
 require 'mac-network/location'
 
 describe "Mac::Network::Location" do
@@ -25,20 +24,40 @@ describe "Mac::Network::Location" do
     end
   end
   describe :new do
-    it 'creates an instance with the passed in properties' do
-      pending
-      Mac::Network::Location.new()
-    end
     context "brand new location" do
       it 'creates a new SCNetworkLocation ref' do
         Mac::Network::Location.new().sc_location_ref.should_not be_nil
       end
+      it 'sets name to provided name' do
+        Mac::Network::Location.new({:name => 'My Great Location'}).name.should == 'My Great Location'
+      end
     end
   end
 
-  describe :save do
-    it 'validates required properties like name' do
-      pending
+  describe :exists? do
+    it 'returns true or false based on provided name' do
+      location = Mac::Network::Location.new
+      location.name = "foo"
+      Mac::Network::Location.exists?("foo").should be_true
+      Mac::Network::Location.exists?("bar").should be_false
+    end
+  end
+
+  describe :add_service do
+    it 'adds the provided service' do
+      location = Mac::Network::Location.new
+      service = location.add_service(Mac::Network::Service.new(:interface => Mac::Network::Interface.first))
+      service.name = "Service This"
+      location.services.first.name.should == service.name
+    end
+  end
+
+  describe :services do
+    it 'lists services for this location' do
+      location = Mac::Network::Location.new
+      service = location.add_service(Mac::Network::Service.new(:interface => Mac::Network::Interface.first))
+      location.services.first.should be_kind_of(Mac::Network::Service)
+      location.services.should have(1).items
     end
   end
 
@@ -46,7 +65,7 @@ describe "Mac::Network::Location" do
     it 'returns the network set name' do
       loc = Mac::Network::Location.new
       loc.name.should be_nil
-      Mac::Network::Location.reload_prefs
+      Mac::Network::reload_prefs
       Mac::Network::Location.first.name.should_not == ""
       Mac::Network::Location.first.name.should_not be_nil
     end
