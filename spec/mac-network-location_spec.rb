@@ -43,6 +43,20 @@ describe "Mac::Network::Location" do
     end
   end
 
+  describe :find_by_name do
+    context :exists do
+      it 'returns a location' do
+        valid_name = Mac::Network::Location.all.first.name.to_s
+        Mac::Network::Location.find_by_name(valid_name).should be_kind_of(Mac::Network::Location)
+      end
+    end
+    context :not_exists do
+      it 'returns nil' do
+        Mac::Network::Location.find_by_name('2983294329').should be_nil
+      end
+    end
+  end
+
   describe :add_service do
     it 'adds the provided service' do
       location = Mac::Network::Location.new

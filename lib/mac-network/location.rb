@@ -25,6 +25,10 @@ class Mac::Network::Location
     return false
   end
 
+  def self.find_by_name(location_name)
+    all.select {|l| l.name == location_name }.first
+  end
+
   def initialize(*args)
     options = {:sc_location_ref => nil, :name => nil}
     options.merge!(args.pop) unless args.empty?
