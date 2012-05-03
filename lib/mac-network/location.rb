@@ -58,6 +58,13 @@ class Mac::Network::Location
       Mac::Network::Service.new(:sc_service_ref => service_ref)
     end.to_a
   end
+
+  def has_service?(service_name)
+    services.each do |service|
+      return true if service.name == service_name
+    end
+    false
+  end
   
   def contains_interface?(interface)
     OSX::SCNetworkSetContainsInterface(sc_location_ref, interface.sc_interface_ref)

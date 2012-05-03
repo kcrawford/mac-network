@@ -75,6 +75,21 @@ describe "Mac::Network::Location" do
     end
   end
 
+  describe :has_service do
+    before(:each) do
+      @location = Mac::Network::Location.new
+    end
+    it 'false if not there' do
+      @location.has_service?("Ethernet").should be_false
+    end
+    it 'true if has it' do
+      service = Mac::Network::Service.new(:interface => Mac::Network::Interface.first)
+      service.name = "Blah Blah"
+      @location.add_service(service)
+      @location.has_service?("Blah Blah").should be_true
+    end
+  end
+
   describe :name do
     it 'returns the network set name' do
       loc = Mac::Network::Location.new
