@@ -77,4 +77,20 @@ describe "Mac::Network::Location" do
       loc.name.should == "My New Location"
     end
   end
+  describe :contains_interface do
+    context 'has the interface' do
+      it 'returns true' do
+        Mac::Network::reload_prefs
+        loc = Mac::Network::Location.first
+        interface = loc.services.first.interface
+        loc.contains_interface?(interface).should == true
+      end
+    end
+    context 'does not have interface' do
+      it 'returns false' do
+        interface = Mac::Network::Interface.all.first
+        Mac::Network::Location.new.contains_interface?(interface).should == false
+      end
+    end
+  end
 end
