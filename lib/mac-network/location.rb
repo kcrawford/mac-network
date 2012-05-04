@@ -69,4 +69,8 @@ class Mac::Network::Location
   def contains_interface?(interface)
     OSX::SCNetworkSetContainsInterface(sc_location_ref, interface.sc_interface_ref)
   end
+
+  def set_id
+    OSX::SCNetworkSetGetSetID(sc_location_ref)
+  end
 end

@@ -39,4 +39,8 @@ class Mac::Network::Service
   def interface
     Mac::Network::Interface.new(OSX::SCNetworkServiceGetInterface(self.sc_service_ref))
   end
+
+  def service_id
+    OSX::SCNetworkServiceGetServiceID(sc_service_ref)
+  end
 end
