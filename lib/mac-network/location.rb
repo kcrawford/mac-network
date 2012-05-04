@@ -6,8 +6,9 @@ OSX.require_framework('SystemConfiguration')
 
 class Mac::Network::Location
   attr_reader :sc_location_ref
+
   def self.all
-    OSX::SCNetworkSetCopyAll(Mac::Network::sc_prefs).map {|l| self.new({:sc_location_ref => l}) }
+    OSX::SCNetworkSetCopyAll(Mac::Network::sc_prefs).map {|l| create({:sc_location_ref => l}) }
   end
 
   def self.first
@@ -38,6 +39,10 @@ class Mac::Network::Location
       @sc_location_ref = options[:sc_location_ref]
     end
     self.name = options[:name] unless options[:name].nil?
+  end
+
+  def self.create(*args)
+    self.new(*args)
   end
 
   def name

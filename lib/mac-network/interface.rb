@@ -13,6 +13,10 @@ class Mac::Network::Interface
     all.first
   end
 
+  def self.find_by_name(interface_name)
+    all.select {|i| i.name == interface_name }.first
+  end
+
   def initialize(sc_interface_ref)
     @sc_interface_ref = sc_interface_ref
   end
@@ -28,4 +32,5 @@ class Mac::Network::Interface
   def inspect
     "#{self.class.name}: name => #{name}, bsd_name => #{bsd_name}"
   end
+
 end

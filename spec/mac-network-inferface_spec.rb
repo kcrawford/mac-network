@@ -18,11 +18,18 @@ describe "Mac::Network::Interface" do
     end
   end
 
-  describe :current do
-    it "returns the currently selected network" do
-      Mac::Network::Interface.first.should be_kind_of(Mac::Network::Interface)
+  describe :find_by_name do
+    it 'returns interface with provided name' do
+      name_to_find = Mac::Network::Interface.first.name
+      found = Mac::Network::Interface.find_by_name(name_to_find)
+      found.should be_kind_of(Mac::Network::Interface)
+      found.name.should == name_to_find
+    end
+    it 'returns nil for no match' do
+      Mac::Network::Interface.find_by_name('no name').should be_nil
     end
   end
+
   describe :new do
     it 'creates an instance with an sc_interface_ref' do
       interface = Mac::Network::Interface.new(OSX::SCNetworkInterfaceCopyAll().first)
