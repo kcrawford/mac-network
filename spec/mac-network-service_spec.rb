@@ -23,6 +23,17 @@ describe "Mac::Network::Service" do
       Mac::Network::Service.first.should be_kind_of(Mac::Network::Service)
     end
   end
+  describe :find_by_name do
+    it 'returns service with provided name' do
+      name_to_find = Mac::Network::Service.first.name
+      found = Mac::Network::Service.find_by_name(name_to_find)
+      found.should be_kind_of(Mac::Network::Service)
+      found.name.should == name_to_find
+    end
+    it 'returns nil for no match' do
+      Mac::Network::Service.find_by_name('no name').should be_nil
+    end
+  end
   describe :new do
     it 'creates an instance with the passed in properties' do
       interface = Mac::Network::Interface.first

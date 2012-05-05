@@ -11,7 +11,7 @@ class Mac::Network::Service
   end
 
   def self.find_by_name(service_name)
-    all.select {|s| s.name == service.name }.first
+    all.select {|s| s.name == service_name }.first
   end
 
   def self.first
