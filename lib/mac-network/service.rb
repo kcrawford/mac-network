@@ -7,7 +7,11 @@ OSX.require_framework('SystemConfiguration')
 class Mac::Network::Service
   attr_reader :sc_service_ref
   def self.all
-    OSX::SCNetworkServiceCopyAll(Mac::Network.sc_prefs).map {|s| self.new({:sc_service_ref => s}) }
+    OSX::SCNetworkServiceCopyAll(Mac::Network.sc_prefs).map {|s| self.create({:sc_service_ref => s}) }
+  end
+
+  def self.find_by_name(service_name)
+    all.select {|s| s.name == service.name }.first
   end
 
   def self.first
@@ -15,7 +19,7 @@ class Mac::Network::Service
   end
 
   def self.current
-    self.new(OSX::SCNetworkServiceCopyCurrent(Mac::Network.sc_prefs))
+    self.create(OSX::SCNetworkServiceCopyCurrent(Mac::Network.sc_prefs))
   end
 
   def initialize(*args)
@@ -26,6 +30,10 @@ class Mac::Network::Service
       options[:sc_service_ref] = OSX::SCNetworkServiceCreate(Mac::Network.sc_prefs, options[:interface].sc_interface_ref) if sc_service_ref.nil?
     end
     @sc_service_ref = options[:sc_service_ref]
+  end
+
+  def create(*args)
+    self.new(*args)
   end
 
   def name
