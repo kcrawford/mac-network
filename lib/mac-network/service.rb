@@ -22,6 +22,10 @@ class Mac::Network::Service
     self.create(OSX::SCNetworkServiceCopyCurrent(Mac::Network.sc_prefs))
   end
 
+  def self.create(*args)
+    self.new(*args)
+  end
+
   def initialize(*args)
     options = {:sc_service_ref => nil, :interface => nil}
     options.merge!(args.pop) unless args.empty?
@@ -30,10 +34,6 @@ class Mac::Network::Service
       options[:sc_service_ref] = OSX::SCNetworkServiceCreate(Mac::Network.sc_prefs, options[:interface].sc_interface_ref) if sc_service_ref.nil?
     end
     @sc_service_ref = options[:sc_service_ref]
-  end
-
-  def create(*args)
-    self.new(*args)
   end
 
   def name
