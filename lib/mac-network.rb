@@ -16,5 +16,10 @@ module Mac
       @@sc_prefs ||= get_sc_prefs
     end
 
+    def self.save_configuration!
+      OSX::SCPreferencesCommitChanges(sc_prefs)
+      OSX::SCPreferencesApplyChanges(sc_prefs)
+    end
+
   end
 end

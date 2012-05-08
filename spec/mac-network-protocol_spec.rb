@@ -14,7 +14,7 @@ describe "Protocol" do
     before(:each) do
       s = Service.new(:interface => Interface.first)
       s.configure_defaults
-      @protocol = s.protocols.first
+      @protocol = s.protocols[1]
     end
 
     describe "configuration" do
@@ -36,6 +36,23 @@ describe "Protocol" do
       it 'returns non-empty string' do
         @protocol.protocol_type.should_not be_nil
         @protocol.protocol_type.length.should > 1
+      end
+    end
+
+    describe "enabled" do
+      it 'returns bool' do
+        [true,false].should include(@protocol.enabled?)
+      end
+    end
+
+    describe "enable" do
+      it 'enables' do
+        @protocol.disable
+        @protocol.enabled?.should be_false
+        @protocol.enable
+        @protocol.enabled?.should be_true
+        @protocol.disable
+        @protocol.enabled?.should be_false
       end
     end
   end

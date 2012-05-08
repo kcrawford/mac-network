@@ -40,7 +40,7 @@ class Mac::Network::Service
   OSX::constants.select {|k| k.start_with? "KSCNetworkProtocolType" }.each do |protocol_type|
     method_name = protocol_type.gsub('KSCNetworkProtocolType','').downcase
     define_method(method_name.to_sym) do
-      Protocol.new(OSX::SCNetworkServiceCopyProtocol(sc_service_ref, OSX::const_get(protocol_type)))
+      protocols.select {|p| p.name == OSX::const_get(protocol_type) }.first
     end
   end
 
@@ -66,13 +66,17 @@ class Mac::Network::Service
 
 #OSX::SCNetworkServiceAddProtocolType(s.sc_service_ref, "IPv4")
     #OSX::SCNetworkServiceCopyProtocol(s.sc_service_ref, "IPv4")
+  def refresh_protocols
+    @protocols_cache = OSX::SCNetworkServiceCopyProtocols(sc_service_ref).map {|p_ref| Mac::Network::Protocol.new(p_ref)}
+  end
 
   def protocols
-    OSX::SCNetworkServiceCopyProtocols(sc_service_ref).map {|p_ref| Mac::Network::Protocol.new(p_ref)}
+    @protocols_cache ||= OSX::SCNetworkServiceCopyProtocols(sc_service_ref).map {|p_ref| Mac::Network::Protocol.new(p_ref)}
   end
 
   def configure_defaults
     OSX::SCNetworkServiceEstablishDefaultConfiguration(self.sc_service_ref)
+    refresh_protocols
   end
 
 end
