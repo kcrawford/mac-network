@@ -90,6 +90,16 @@ describe "Mac::Network::Location" do
     end
   end
 
+  describe :destroy do
+    it 'removes the location' do
+      loc = Mac::Network::Location.new
+      loc.name = 'A Grand Location'
+      Mac::Network::Location.find_by_name('A Grand Location').should_not be_nil
+      loc.destroy
+      Mac::Network::Location.find_by_name('A Grand Location').should be_nil
+    end
+  end
+
   describe :name do
     it 'returns the network set name' do
       loc = Mac::Network::Location.new

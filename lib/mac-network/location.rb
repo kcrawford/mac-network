@@ -27,7 +27,7 @@ class Mac::Network::Location
   end
 
   def self.find_by_name(location_name)
-    all.select {|l| l.name == location_name }.first
+    all.select {|l| l.name.to_s == location_name }.first
   end
 
   def initialize(*args)
@@ -77,5 +77,13 @@ class Mac::Network::Location
 
   def set_id
     OSX::SCNetworkSetGetSetID(sc_location_ref)
+  end
+
+  def destroy
+    OSX::SCNetworkSetRemove(sc_location_ref)
+  end
+
+  def inspect
+    "#{self.class.name}: name => #{name}, set_id => #{set_id}"
   end
 end

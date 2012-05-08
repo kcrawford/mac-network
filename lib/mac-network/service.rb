@@ -1,6 +1,7 @@
 require 'osx/cocoa'
 require 'mac-network'
 require 'mac-network/interface'
+require 'mac-network/protocol'
 
 OSX.require_framework('SystemConfiguration')
 
@@ -36,6 +37,13 @@ class Mac::Network::Service
     @sc_service_ref = options[:sc_service_ref]
   end
 
+  OSX::constants.select {|k| k.start_with? "KSCNetworkProtocolType" }.each do |protocol_type|
+    method_name = protocol_type.gsub('KSCNetworkProtocolType','').downcase
+    define_method(method_name.to_sym) do
+      Protocol.new(OSX::SCNetworkServiceCopyProtocol(sc_service_ref, OSX::const_get(protocol_type)))
+    end
+  end
+
   def name
     OSX::SCNetworkServiceGetName(self.sc_service_ref)
   end
@@ -51,4 +59,20 @@ class Mac::Network::Service
   def service_id
     OSX::SCNetworkServiceGetServiceID(sc_service_ref)
   end
+
+  def inspect
+    "#<#{self.class.name} name='#{name}' id='#{service_id}'>"
+  end
+
+#OSX::SCNetworkServiceAddProtocolType(s.sc_service_ref, "IPv4")
+    #OSX::SCNetworkServiceCopyProtocol(s.sc_service_ref, "IPv4")
+
+  def protocols
+    OSX::SCNetworkServiceCopyProtocols(sc_service_ref).map {|p_ref| Mac::Network::Protocol.new(p_ref)}
+  end
+
+  def configure_defaults
+    OSX::SCNetworkServiceEstablishDefaultConfiguration(self.sc_service_ref)
+  end
+
 end

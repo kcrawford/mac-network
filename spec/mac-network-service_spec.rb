@@ -64,4 +64,18 @@ describe "Mac::Network::Service" do
       service.name.should == "My New Service"
     end
   end
+
+  describe :protocols do
+    it 'returns iterable' do
+      Service.first.protocols.should respond_to(:each)
+    end
+  end
+
+  describe :ipv4 do
+    it 'returns ipv4 protocol' do
+      Service.first.ipv4.should be_kind_of(Mac::Network::Protocol)
+      Service.first.ipv4.name.downcase.should == 'ipv4'
+    end
+  end
+
 end
