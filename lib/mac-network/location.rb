@@ -60,7 +60,7 @@ class Mac::Network::Location
 
   def services
     OSX::SCNetworkSetCopyServices(self.sc_location_ref).map do |service_ref|
-      Mac::Network::Service.new(:sc_service_ref => service_ref)
+      Service.create(:sc_service_ref => service_ref)
     end.to_a
   end
 
