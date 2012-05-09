@@ -78,4 +78,16 @@ describe "Mac::Network::Service" do
     end
   end
 
+  describe :disable_all_protocols do
+    it 'disables them' do
+      service = Mac::Network::Service.new(:interface => Mac::Network::Interface.first)
+      service.configure_defaults
+      protocol = service.protocols.first
+      protocol.enable
+      protocol.enabled?.should be_true
+      service.disable_all_protocols
+      protocol.enabled?.should be_false
+    end
+  end
+
 end

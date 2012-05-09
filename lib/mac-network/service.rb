@@ -64,8 +64,6 @@ class Mac::Network::Service
     "#<#{self.class.name} name='#{name}' id='#{service_id}'>"
   end
 
-#OSX::SCNetworkServiceAddProtocolType(s.sc_service_ref, "IPv4")
-    #OSX::SCNetworkServiceCopyProtocol(s.sc_service_ref, "IPv4")
   def refresh_protocols
     @protocols_cache = OSX::SCNetworkServiceCopyProtocols(sc_service_ref).map {|p_ref| Mac::Network::Protocol.new(p_ref)}
   end
@@ -77,6 +75,10 @@ class Mac::Network::Service
   def configure_defaults
     OSX::SCNetworkServiceEstablishDefaultConfiguration(self.sc_service_ref)
     refresh_protocols
+  end
+
+  def disable_all_protocols
+    protocols.each {|p| p.disable }
   end
 
 end
