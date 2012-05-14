@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/nil/mac-network"
   gem.license = "MIT"
   gem.summary = %Q{Mac Network Management}
-  gem.description = %Q{Mac Network Management}
+  gem.description = %Q{Mac Network Management for Locations, Services, Interfaces}
   gem.email = "kcrwfrd@gmail.com"
   gem.authors = ["Kyle Crawford"]
   # dependencies defined in Gemfile
