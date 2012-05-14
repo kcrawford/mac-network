@@ -1,4 +1,4 @@
-require 'mac-network/contants'
+require 'mac-network/constants'
 
 module Mac
   module Network
