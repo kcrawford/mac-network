@@ -1,3 +1,5 @@
+require 'mac-network/contants'
+
 module Mac
   module Network
     require 'osx/cocoa'
