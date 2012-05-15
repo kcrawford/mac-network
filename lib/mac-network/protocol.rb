@@ -48,4 +48,19 @@ class Mac::Network::Protocol
   def disable
     set_enabled false
   end
+
+  def available_properties
+    Hash[SC_CONSTANTS.select {|k,v| k =~ /kSCPropNet.*#{name}.*/ }]
+
+    # TODO should return a PropertyObject that has ValueObjects?
+      # think about how it will be used
+      # location.service.ipv4.config_method = "DHCP"
+      # location.service.dns.search_domains = ["blah.com", "bar.com"]
+      # location.service.proxies.autoproxy_url = 'http://proxyconfiguration.domain.com'
+      # 'IPv4' => :properties => [
+      #   :config_method => {:name => 'ConfigMethod', :values => ['DHCP', 'Manual'], :type => String },
+      #   :addresses => {:name => 'Addresses', :values => nil, :type => String }
+      # ]
+  end
+
 end
