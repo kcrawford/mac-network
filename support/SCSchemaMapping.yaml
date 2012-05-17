@@ -1,0 +1,848 @@
+--- 
+AirPort: 
+  save_passwords: 
+    :type: CFNumber
+    :values: []
+
+    :name: SavePasswords
+  allow_net_creation: 
+    :type: CFNumber
+    :values: []
+
+    :name: AllowNetCreation
+  join_mode: 
+    :type: CFString
+    :values: 
+    - Ranked
+    - Strongest
+    - Automatic
+    - Recent
+    - Preferred
+    :name: JoinMode
+  auth_password_encryption: 
+    :type: CFString
+    :values: 
+    - Keychain
+    :name: AuthPasswordEncryption
+  auth_password: 
+    :type: CFData
+    :values: 
+    - Keychain
+    :name: AuthPassword
+  power_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: PowerEnabled
+  preferred_network: 
+    :type: CFString
+    :values: []
+
+    :name: PreferredNetwork
+6to4: 
+  relay: 
+    :type: CFString
+    :values: []
+
+    :name: Relay
+Modem: 
+  speaker: 
+    :type: CFNumber
+    :values: []
+
+    :name: Speaker
+  device_context_id: 
+    :type: CFString
+    :values: []
+
+    :name: DeviceContextID
+  connection_script: 
+    :type: CFString
+    :values: []
+
+    :name: ConnectionScript
+  connection_personality: 
+    :type: CFString
+    :values: []
+
+    :name: ConnectionPersonality
+  pulse_dial: 
+    :type: CFNumber
+    :values: []
+
+    :name: PulseDial
+  hold_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: HoldEnabled
+  error_correction: 
+    :type: CFNumber
+    :values: []
+
+    :name: ErrorCorrection
+  hold_call_waiting_audible_alert: 
+    :type: CFNumber
+    :values: []
+
+    :name: HoldCallWaitingAudibleAlert
+  device_model: 
+    :type: CFString
+    :values: []
+
+    :name: DeviceModel
+  access_point_name: 
+    :type: CFString
+    :values: []
+
+    :name: AccessPointName
+  speed: 
+    :type: CFNumber
+    :values: []
+
+    :name: Speed
+  note: 
+    :type: CFString
+    :values: []
+
+    :name: Note
+  dial_mode: 
+    :type: CFString
+    :values: 
+    - Manual
+    - IgnoreDialTone
+    - WaitForDialTone
+    :name: DialMode
+  hold_reminder_time: 
+    :type: CFNumber
+    :values: []
+
+    :name: HoldReminderTime
+  data_compression: 
+    :type: CFNumber
+    :values: []
+
+    :name: DataCompression
+  device_vendor: 
+    :type: CFString
+    :values: []
+
+    :name: DeviceVendor
+  connect_speed: 
+    :type: CFNumber
+    :values: []
+
+    :name: ConnectSpeed
+  hold_disconnect_on_answer: 
+    :type: CFNumber
+    :values: []
+
+    :name: HoldDisconnectOnAnswer
+  hold_reminder: 
+    :type: CFNumber
+    :values: []
+
+    :name: HoldReminder
+Ethernet: 
+  media_sub_type: 
+    :type: CFString
+    :values: []
+
+    :name: MediaSubType
+  mtu: 
+    :type: CFNumber
+    :values: []
+
+    :name: MTU
+  media_options: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: MediaOptions
+Interface: 
+  sub_type: 
+    :type: CFString
+    :values: 
+    - PPPoE
+    - L2TP
+    - PPPSerial
+    - PPTP
+    :name: SubType
+  supports_modem_on_hold: 
+    :type: CFNumber
+    :values: []
+
+    :name: SupportsModemOnHold
+  interfaces: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: Interfaces
+  type: 
+    :type: CFString
+    :values: 
+    - FireWire
+    - 6to4
+    - PPP
+    - Ethernet
+    - IPSec
+    :name: Type
+  device_name: 
+    :type: CFString
+    :values: []
+
+    :name: DeviceName
+  hardware: 
+    :type: CFString
+    :values: []
+
+    :name: Hardware
+Proxies: 
+  proxy_auto_config_url_string: 
+    :type: CFString
+    :values: []
+
+    :name: ProxyAutoConfigURLString
+  socks_port: 
+    :type: CFNumber
+    :values: []
+
+    :name: SOCKSPort
+  socks_proxy: 
+    :type: CFString
+    :values: []
+
+    :name: SOCKSProxy
+  proxy_auto_config_java_script: 
+    :type: CFString
+    :values: []
+
+    :name: ProxyAutoConfigJavaScript
+  http_proxy: 
+    :type: CFString
+    :values: []
+
+    :name: HTTPProxy
+  gopher_port: 
+    :type: CFNumber
+    :values: []
+
+    :name: GopherPort
+  https_enable: 
+    :type: CFNumber
+    :values: []
+
+    :name: HTTPSEnable
+  http_port: 
+    :type: CFNumber
+    :values: []
+
+    :name: HTTPPort
+  ftp_passive: 
+    :type: CFNumber
+    :values: []
+
+    :name: FTPPassive
+  proxy_auto_config_enable: 
+    :type: CFNumber
+    :values: []
+
+    :name: ProxyAutoConfigEnable
+  rtsp_port: 
+    :type: CFNumber
+    :values: []
+
+    :name: RTSPPort
+  https_proxy: 
+    :type: CFString
+    :values: []
+
+    :name: HTTPSProxy
+  ftp_enable: 
+    :type: CFNumber
+    :values: []
+
+    :name: FTPEnable
+  exceptions_list: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: ExceptionsList
+  rtsp_proxy: 
+    :type: CFString
+    :values: []
+
+    :name: RTSPProxy
+  rtsp_enable: 
+    :type: CFNumber
+    :values: []
+
+    :name: RTSPEnable
+  ftp_port: 
+    :type: CFNumber
+    :values: []
+
+    :name: FTPPort
+  exclude_simple_hostnames: 
+    :type: CFNumber
+    :values: []
+
+    :name: ExcludeSimpleHostnames
+  http_enable: 
+    :type: CFNumber
+    :values: []
+
+    :name: HTTPEnable
+  proxy_auto_discovery_enable: 
+    :type: CFNumber
+    :values: []
+
+    :name: ProxyAutoDiscoveryEnable
+  ftp_proxy: 
+    :type: CFString
+    :values: []
+
+    :name: FTPProxy
+  gopher_proxy: 
+    :type: CFString
+    :values: []
+
+    :name: GopherProxy
+  socks_enable: 
+    :type: CFNumber
+    :values: []
+
+    :name: SOCKSEnable
+  https_port: 
+    :type: CFNumber
+    :values: []
+
+    :name: HTTPSPort
+  gopher_enable: 
+    :type: CFNumber
+    :values: []
+
+    :name: GopherEnable
+Link: 
+  detaching: 
+    :type: CFBoolean
+    :values: []
+
+    :name: Detaching
+  active: 
+    :type: CFBoolean
+    :values: []
+
+    :name: Active
+DHCP: {}
+
+FireWire: {}
+
+PPP: 
+  logfile: 
+    :type: CFString
+    :values: []
+
+    :name: Logfile
+  disconnect_on_logout: 
+    :type: CFNumber
+    :values: []
+
+    :name: DisconnectOnLogout
+  comm_terminal_script: 
+    :type: CFString
+    :values: []
+
+    :name: CommTerminalScript
+  ccp_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: CCPEnabled
+  plugins: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: Plugins
+  comm_alternate_remote_address: 
+    :type: CFString
+    :values: []
+
+    :name: CommAlternateRemoteAddress
+  auth_eap_plugins: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: AuthEAPPlugins
+  lcpmru: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPMRU
+  last_cause: 
+    :type: CFNumber
+    :values: []
+
+    :name: LastCause
+  lcp_echo_failure: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPEchoFailure
+  comm_redial_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: CommRedialEnabled
+  device_last_cause: 
+    :type: CFNumber
+    :values: []
+
+    :name: DeviceLastCause
+  connect_time: 
+    :type: CFNumber
+    :values: []
+
+    :name: ConnectTime
+  retry_connect_time: 
+    :type: CFNumber
+    :values: []
+
+    :name: RetryConnectTime
+  lcp_compression_p_field: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPCompressionPField
+  lcp_transmit_accm: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPTransmitACCM
+  disconnect_on_idle_timer: 
+    :type: CFNumber
+    :values: []
+
+    :name: DisconnectOnIdleTimer
+  disconnect_on_fast_user_switch: 
+    :type: CFNumber
+    :values: []
+
+    :name: DisconnectOnFastUserSwitch
+  verbose_logging: 
+    :type: CFNumber
+    :values: []
+
+    :name: VerboseLogging
+  lcp_echo_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPEchoEnabled
+  ipcp_compression_vj: 
+    :type: CFNumber
+    :values: []
+
+    :name: IPCPCompressionVJ
+  comm_display_terminal_window: 
+    :type: CFNumber
+    :values: []
+
+    :name: CommDisplayTerminalWindow
+  acsp_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: ACSPEnabled
+  lcp_echo_interval: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPEchoInterval
+  idle_reminder_timer: 
+    :type: CFNumber
+    :values: []
+
+    :name: IdleReminderTimer
+  lcp_receive_accm: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPReceiveACCM
+  comm_redial_interval: 
+    :type: CFNumber
+    :values: []
+
+    :name: CommRedialInterval
+  auth_password_encryption: 
+    :type: CFString
+    :values: 
+    - Token
+    - Keychain
+    :name: AuthPasswordEncryption
+  disconnect_on_sleep: 
+    :type: CFNumber
+    :values: []
+
+    :name: DisconnectOnSleep
+  auth_name: 
+    :type: CFString
+    :values: []
+
+    :name: AuthName
+  ccpmppe40_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: CCPMPPE40Enabled
+  dial_on_demand: 
+    :type: CFNumber
+    :values: []
+
+    :name: DialOnDemand
+  ppp_override_primary: 
+    :type: CFNumber
+    :values: []
+
+    :name: PPPOverridePrimary
+  use_session_timer: 
+    :type: CFNumber
+    :values: []
+
+    :name: UseSessionTimer
+  ipcp_use_peer_dns: 
+    :type: CFNumber
+    :values: []
+
+    :name: IPCPUsePeerDNS
+  comm_remote_address: 
+    :type: CFString
+    :values: []
+
+    :name: CommRemoteAddress
+  auth_prompt: 
+    :type: CFString
+    :values: 
+    - Before
+    - After
+    :name: AuthPrompt
+  idle_reminder: 
+    :type: CFNumber
+    :values: []
+
+    :name: IdleReminder
+  disconnect_time: 
+    :type: CFNumber
+    :values: []
+
+    :name: DisconnectTime
+  auth_password: 
+    :type: CFString
+    :values: 
+    - Token
+    - Keychain
+    :name: AuthPassword
+  comm_connect_delay: 
+    :type: CFNumber
+    :values: []
+
+    :name: CommConnectDelay
+  comm_use_terminal_script: 
+    :type: CFNumber
+    :values: []
+
+    :name: CommUseTerminalScript
+  ccpmppe128_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: CCPMPPE128Enabled
+  comm_redial_count: 
+    :type: CFNumber
+    :values: []
+
+    :name: CommRedialCount
+  lcp_compression_ac_field: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPCompressionACField
+  disconnect_on_idle: 
+    :type: CFNumber
+    :values: []
+
+    :name: DisconnectOnIdle
+  session_timer: 
+    :type: CFNumber
+    :values: []
+
+    :name: SessionTimer
+  auth_protocol: 
+    :type: CFArray[CFString]
+    :values: 
+    - PAP
+    - EAP
+    - CHAP
+    - MSCHAP1
+    - MSCHAP2
+    :name: AuthProtocol
+  status: 
+    :type: CFNumber
+    :values: []
+
+    :name: Status
+  lcpmtu: 
+    :type: CFNumber
+    :values: []
+
+    :name: LCPMTU
+L2TP: 
+  ip_sec_shared_secret_encryption: 
+    :type: CFString
+    :values: 
+    - Keychain
+    :name: IPSecSharedSecretEncryption
+  ip_sec_shared_secret: 
+    :type: CFString
+    :values: 
+    - Keychain
+    :name: IPSecSharedSecret
+  transport: 
+    :type: CFString
+    :values: 
+    - IPSec
+    - IP
+    :name: Transport
+IPv4: 
+  dhcp_client_id: 
+    :type: CFString
+    :values: []
+
+    :name: DHCPClientID
+  addresses: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: Addresses
+  router: 
+    :type: CFString
+    :values: []
+
+    :name: Router
+  broadcast_addresses: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: BroadcastAddresses
+  dest_addresses: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: DestAddresses
+  subnet_masks: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: SubnetMasks
+  config_method: 
+    :type: CFString
+    :values: 
+    - Manual
+    - LinkLocal
+    - PPP
+    - Automatic
+    - DHCP
+    - INFORM
+    - BOOTP
+    :name: ConfigMethod
+SMB: 
+  net_bios_scope: 
+    :type: CFString
+    :values: []
+
+    :name: NetBIOSScope
+  workgroup: 
+    :type: CFString
+    :values: []
+
+    :name: Workgroup
+  wins_addresses: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: WINSAddresses
+  net_bios_node_type: 
+    :type: CFString
+    :values: 
+    - Hybrid
+    - Mixed
+    - Broadcast
+    - Peer
+    :name: NetBIOSNodeType
+  net_bios_name: 
+    :type: CFString
+    :values: []
+
+    :name: NetBIOSName
+PPPSerial: {}
+
+PPTP: {}
+
+IPv6: 
+  flags: 
+    :type: CFNumber
+    :values: []
+
+    :name: Flags
+  router: 
+    :type: CFString
+    :values: []
+
+    :name: Router
+  addresses: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: Addresses
+  dest_addresses: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: DestAddresses
+  prefix_length: 
+    :type: CFArray[CFNumber]
+    :values: []
+
+    :name: PrefixLength
+  config_method: 
+    :type: CFString
+    :values: 
+    - 6to4
+    - Automatic
+    - Manual
+    - LinkLocal
+    - RouterAdvertisement
+    :name: ConfigMethod
+DNS: 
+  search_order: 
+    :type: CFNumber
+    :values: []
+
+    :name: SearchOrder
+  sort_list: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: SortList
+  search_domains: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: SearchDomains
+  supplemental_match_orders: 
+    :type: CFArray[CFNumber]
+    :values: []
+
+    :name: SupplementalMatchOrders
+  supplemental_match_domains: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: SupplementalMatchDomains
+  server_timeout: 
+    :type: CFNumber
+    :values: []
+
+    :name: ServerTimeout
+  domain_name: 
+    :type: CFString
+    :values: []
+
+    :name: DomainName
+  server_addresses: 
+    :type: CFArray[CFString]
+    :values: []
+
+    :name: ServerAddresses
+  server_port: 
+    :type: CFNumber
+    :values: []
+
+    :name: ServerPort
+  options: 
+    :type: CFString
+    :values: []
+
+    :name: Options
+IPSec: 
+  shared_secret: 
+    :type: CFString
+    :values: 
+    - Keychain
+    :name: SharedSecret
+  authentication_method: 
+    :type: CFString
+    :values: 
+    - SharedSecret
+    - Hybrid
+    - Certificate
+    :name: AuthenticationMethod
+  x_auth_password_encryption: 
+    :type: CFString
+    :values: 
+    - Keychain
+    - Prompt
+    :name: XAuthPasswordEncryption
+  x_auth_password: 
+    :type: CFString
+    :values: 
+    - Keychain
+    - Prompt
+    :name: XAuthPassword
+  connect_time: 
+    :type: CFNumber
+    :values: []
+
+    :name: ConnectTime
+  shared_secret_encryption: 
+    :type: CFString
+    :values: 
+    - Keychain
+    :name: SharedSecretEncryption
+  remote_address: 
+    :type: CFString
+    :values: []
+
+    :name: RemoteAddress
+  local_identifier_type: 
+    :type: CFString
+    :values: 
+    - KeyID
+    :name: LocalIdentifierType
+  local_certificate: 
+    :type: CFData
+    :values: []
+
+    :name: LocalCertificate
+  x_auth_name: 
+    :type: CFString
+    :values: []
+
+    :name: XAuthName
+  status: 
+    :type: CFNumber
+    :values: []
+
+    :name: Status
+  local_identifier: 
+    :type: CFString
+    :values: 
+    - KeyID
+    :name: LocalIdentifier
+  x_auth_enabled: 
+    :type: CFNumber
+    :values: []
+
+    :name: XAuthEnabled
+PPPoE: {}
+

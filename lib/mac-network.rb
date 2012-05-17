@@ -1,9 +1,10 @@
-require 'mac-network/constants'
-
 module Mac
   module Network
+    require 'yaml'
     require 'osx/cocoa'
     OSX::require_framework('SystemConfiguration')
+
+    SC_SCHEMA = YAML.load_file(File.join(File.dirname(__FILE__), '../support','SCSchemaMapping.yaml'))
 
     def self.get_sc_prefs
       OSX::SCPreferencesCreate(nil,'default',nil)
