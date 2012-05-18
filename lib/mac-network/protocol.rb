@@ -3,9 +3,7 @@ include Mac::Network
 
 class Mac::Network::Protocol
 
-  # do not remove or tests will fail for unknown reason!
   PROTOCOL_TYPES = [
-    OSX::KSCNetworkProtocolTypeAppleTalk,
     OSX::KSCNetworkProtocolTypeDNS,
     OSX::KSCNetworkProtocolTypeIPv4,
     OSX::KSCNetworkProtocolTypeIPv6,
