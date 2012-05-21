@@ -44,6 +44,10 @@ class Mac::Network::Service
     end
   end
 
+  def protocol_by_name(protocol_name)
+    protocols.select {|p| p.name.to_s.downcase == protocol_name.downcase }.first
+  end
+
   def name
     OSX::SCNetworkServiceGetName(self.sc_service_ref)
   end

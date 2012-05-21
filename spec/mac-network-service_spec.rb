@@ -71,6 +71,14 @@ describe "Mac::Network::Service" do
     end
   end
 
+  describe :protocol_by_name do
+    it 'returns one protocol with matching name' do
+      s = Service.first
+      s.configure_defaults
+      s.protocol_by_name('ipv4').name.downcase.should == 'ipv4'
+    end
+  end
+
   describe :ipv4 do
     it 'returns ipv4 protocol' do
       Service.first.ipv4.should be_kind_of(Mac::Network::Protocol)
