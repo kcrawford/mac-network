@@ -44,4 +44,11 @@ describe "Mac::Network::Interface" do
       Mac::Network::Interface.first.name.should_not be_nil
     end
   end
+
+  describe 'wired?' do
+    it 'returns bool' do
+      Mac::Network::Interface.find_by_name("Wi-Fi").wired?.should be_false
+      Mac::Network::Interface.find_by_name("Ethernet").wired?.should be_true
+    end
+  end
 end

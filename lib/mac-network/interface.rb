@@ -29,6 +29,10 @@ class Mac::Network::Interface
     OSX::SCNetworkInterfaceGetLocalizedDisplayName(self.sc_interface_ref)
   end
 
+  def wired?
+    !!(name =~ /Ethernet/)
+  end
+
   def inspect
     "#{self.class.name}: name => #{name}, bsd_name => #{bsd_name}"
   end
