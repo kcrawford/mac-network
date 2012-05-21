@@ -26,7 +26,7 @@ class Mac::Network::Interface
   end
 
   def name
-    OSX::SCNetworkInterfaceGetLocalizedDisplayName(self.sc_interface_ref)
+    OSX::SCNetworkInterfaceGetLocalizedDisplayName(self.sc_interface_ref).to_s
   end
 
   def wired?
