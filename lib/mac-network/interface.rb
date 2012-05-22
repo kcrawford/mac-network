@@ -11,7 +11,7 @@ class Mac::Network::Interface
   end
 
   def self.all
-    OSX::SCNetworkInterfaceCopyAll().map {|l| self.new(l) }
+    OSX::SCNetworkInterfaceCopyAll().map {|l| self.create(l) }
   end
 
   def self.all_with_link
@@ -28,6 +28,10 @@ class Mac::Network::Interface
 
   def initialize(sc_interface_ref)
     @sc_interface_ref = sc_interface_ref
+  end
+
+  def self.create(*args)
+    self.create(*args)
   end
 
   def bsd_name
