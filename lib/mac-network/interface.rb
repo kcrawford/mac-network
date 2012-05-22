@@ -14,6 +14,10 @@ class Mac::Network::Interface
     OSX::SCNetworkInterfaceCopyAll().map {|l| self.new(l) }
   end
 
+  def self.all_with_link
+    self.all.select {|i| i.has_link? }
+  end
+
   def self.first
     all.first
   end

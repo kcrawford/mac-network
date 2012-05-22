@@ -30,6 +30,14 @@ describe "Mac::Network::Interface" do
     end
   end
 
+  describe :all_with_link do
+    it 'lists only interfaces with link' do
+      Mac::Network::Interface.all_with_link.each do |i|
+        i.has_link?.should be_true
+      end
+    end
+  end
+
   describe :new do
     it 'creates an instance with an sc_interface_ref' do
       interface = Mac::Network::Interface.new(OSX::SCNetworkInterfaceCopyAll().first)
