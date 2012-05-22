@@ -31,7 +31,7 @@ class Mac::Network::Interface
   end
 
   def self.create(*args)
-    self.create(*args)
+    self.new(*args)
   end
 
   def bsd_name
