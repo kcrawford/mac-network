@@ -19,6 +19,12 @@ class Mac::Network::Location
     self.create(:sc_location_ref => OSX::SCNetworkSetCopyCurrent(Mac::Network::sc_prefs))
   end
 
+  def self.switch_to_location(location_name)
+    location = find_by_name(location_name)
+    return false unless location
+    location.select
+  end
+
   def self.exists?(location_name)
     all.each do |location|
       return true if location.name == location_name

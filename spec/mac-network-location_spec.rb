@@ -24,6 +24,19 @@ describe "Mac::Network::Location" do
     end
   end
 
+  describe :switch_to_location do
+    it 'changes location to named location' do
+      location = Mac::Network::Location.new(:name => 'Not Currently Active')
+      service = location.add_service(Mac::Network::Service.new(:interface => Mac::Network::Interface.first))
+      Mac::Network::Location.switch_to_location('Not Currently Active')
+      Mac::Network::Location.current.name.should == 'Not Currently Active'
+    end
+
+    it 'returns false if location does not exist' do
+      Mac::Network::Location.switch_to_location('q24q52532452345236265235124').should be_false
+    end
+  end
+
   describe :select do
     it 'sets the location as the currently active location' do
       location = Mac::Network::Location.new(:name => 'Not Currently Active')
