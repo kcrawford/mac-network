@@ -16,7 +16,7 @@ class Mac::Network::Location
   end
 
   def self.current
-    self.create(OSX::SCNetworkSetCopyCurrent(Mac::Network::sc_prefs))
+    self.create(:sc_location_ref => OSX::SCNetworkSetCopyCurrent(Mac::Network::sc_prefs))
   end
 
   def self.exists?(location_name)
@@ -43,6 +43,10 @@ class Mac::Network::Location
 
   def self.create(*args)
     self.new(*args)
+  end
+
+  def select
+    OSX::SCNetworkSetSetCurrent(self.sc_location_ref)
   end
 
   def name

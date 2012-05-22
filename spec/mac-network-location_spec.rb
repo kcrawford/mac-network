@@ -20,7 +20,17 @@ describe "Mac::Network::Location" do
 
   describe :current do
     it "returns the currently selected network" do
-      Mac::Network::Location.first.should be_kind_of(Mac::Network::Location)
+      Mac::Network::Location.current.should be_kind_of(Mac::Network::Location)
+    end
+  end
+
+  describe :select do
+    it 'sets the location as the currently active location' do
+      location = Mac::Network::Location.new(:name => 'Not Currently Active')
+      service = location.add_service(Mac::Network::Service.new(:interface => Mac::Network::Interface.first))
+      Mac::Network::Location.current.name.should_not == location.name
+      location.select
+      Mac::Network::Location.current.name.should == location.name
     end
   end
   describe :new do
