@@ -5,6 +5,11 @@ OSX.require_framework('SystemConfiguration')
 
 class Mac::Network::Interface
   attr_reader :sc_interface_ref
+
+  def self.store
+    @@store ||= OSX::SCDynamicStoreCreate(nil, "mac-network", nil, nil)
+  end
+
   def self.all
     OSX::SCNetworkInterfaceCopyAll().map {|l| self.new(l) }
   end
@@ -35,6 +40,10 @@ class Mac::Network::Interface
 
   def inspect
     "#{self.class.name}: name => #{name}, bsd_name => #{bsd_name}"
+  end
+
+  def has_link?
+    !!(OSX::SCDynamicStoreCopyValue(self.class.store, "State:/Network/Interface/#{bsd_name}/Link").fetch("Active") == 1)
   end
 
 end
