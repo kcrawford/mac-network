@@ -62,4 +62,8 @@ class Mac::Network::Interface
     !!(OSX::SCDynamicStoreCopyValue(self.class.store, "State:/Network/Interface/#{bsd_name}/Link").fetch("Active") == 1)
   end
 
+  def has_ip?
+    !!(OSX::SCDynamicStoreCopyValue(self.class.store, "State:/Network/Interface/#{bsd_name}/IPv4"))
+  end
+
 end
