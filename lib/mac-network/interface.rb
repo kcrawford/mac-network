@@ -18,6 +18,14 @@ class Mac::Network::Interface
     self.all.select {|i| i.has_link? }
   end
 
+  def self.all_wired
+    self.all.select {|i| i.wired? }
+  end
+
+  def self.all_wireless
+    self.all.select {|i| !i.wired? }
+  end
+
   def self.first
     all.first
   end
