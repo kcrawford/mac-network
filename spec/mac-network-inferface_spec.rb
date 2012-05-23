@@ -56,7 +56,7 @@ describe "Mac::Network::Interface" do
   describe 'wired?' do
     it 'returns bool' do
       Mac::Network::Interface.find_by_name("Wi-Fi").wired?.should be_false
-      Mac::Network::Interface.find_by_name("Ethernet").wired?.should be_true
+      Mac::Network::Interface.all.select {|i| i.name.to_s =~ /Ethernet/i}.first.wired?.should be_true
     end
   end
 
@@ -65,7 +65,7 @@ describe "Mac::Network::Interface" do
       [true,false].should include(Mac::Network::Interface.first.has_link?)
     end
     it 'is probably false for firewire' do
-      fw = Mac::Network::Interface.find_by_name("FireWire")
+      fw = Mac::Network::Interface.all.select {|i| i.name.to_s =~ /Firewire/i}.first
       fw.has_link?.should be_false
     end
   end

@@ -11,7 +11,7 @@ class Mac::Network::Interface
   end
 
   def self.all
-    OSX::SCNetworkInterfaceCopyAll().map {|l| self.create(l) }
+    OSX::SCNetworkInterfaceCopyAll().map {|l| self.create(l) }.reject {|i| i.name.to_s =~ /BlueTooth/i }
   end
 
   def self.all_with_link
