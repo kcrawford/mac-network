@@ -34,6 +34,10 @@ class Mac::Network::Interface
     all.select {|i| i.name == interface_name }.first
   end
 
+  def self.find_by_bsd_name(bsd_name)
+    all.select {|i| i.bsd_name == bsd_name }.first
+  end
+
   def initialize(sc_interface_ref)
     @sc_interface_ref = sc_interface_ref
   end
