@@ -17,3 +17,5 @@ Description goes here.
 Copyright (c) 2012 Kyle Crawford. See LICENSE.txt for
 further details.
 
+Building OS X Package:
+path-to/osx-package/bin/packager --watch 'gem install path-to/mac-network/pkg/mac-network-1.4.11.gem --local' --title "Mac Network" --version 1.4.11 --name Mac_Network --identifier com.mac.pkg.network
