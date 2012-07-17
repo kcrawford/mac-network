@@ -30,6 +30,13 @@ describe "Mac::Network::Interface" do
     end
   end
 
+  describe :for_default_gateway do
+    it 'returns the interface used as the default gateway' do
+      shelled_out_bsd_name = `netstat -arn | grep default`.gsub(/.* /,'').rstrip
+      Mac::Network::Interface.for_default_gateway.bsd_name.should == shelled_out_bsd_name
+    end
+  end
+
   describe :all_with_link do
     it 'lists only interfaces with link' do
       Mac::Network::Interface.all_with_link.each do |i|

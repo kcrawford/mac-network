@@ -6,8 +6,8 @@ OSX.require_framework('SystemConfiguration')
 class Mac::Network::Interface
   attr_reader :sc_interface_ref
 
-  def self.store
-    @@store ||= OSX::SCDynamicStoreCreate(nil, "mac-network", nil, nil)
+  def self.dynamic_store
+    OSX::SCDynamicStoreCreate(nil, "mac-network", nil, nil)
   end
 
   def self.all
@@ -28,6 +28,19 @@ class Mac::Network::Interface
 
   def self.first
     all.first
+  end
+
+  def self.for_default_gateway
+    # get the global IPv4 state dictionary from the dynamic store
+    global_ipv4_state = OSX::SCDynamicStoreCopyValue(dynamic_store, "State:/Network/Global/IPv4")
+
+    # if we got a dictionary, use the PrimaryInterface to instantiate our object
+    # otherwise return nil
+    if global_ipv4_state.respond_to? :fetch
+      find_by_bsd_name(global_ipv4_state.fetch("PrimaryInterface", ""))
+    else
+      nil
+    end
   end
 
   def self.find_by_name(interface_name)
@@ -63,11 +76,11 @@ class Mac::Network::Interface
   end
 
   def has_link?
-    !!(OSX::SCDynamicStoreCopyValue(self.class.store, "State:/Network/Interface/#{bsd_name}/Link").fetch("Active") == 1)
+    !!(OSX::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/Link").fetch("Active") == 1)
   end
 
   def has_ip?
-    !!(OSX::SCDynamicStoreCopyValue(self.class.store, "State:/Network/Interface/#{bsd_name}/IPv4"))
+    !!(OSX::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/IPv4"))
   end
 
 end
