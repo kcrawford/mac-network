@@ -88,4 +88,8 @@ class Mac::Network::Interface
     !!(OSX::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/IPv4"))
   end
 
+  def ip
+    OSX::SCDynamicStoreCopyValue(dynamic_store, "State:/Network/Interface/#{bsd_name}/IPv4").fetch("Addresses",[]).first
+  end
+
 end
