@@ -1,14 +1,18 @@
-require 'osx/cocoa'
 require 'mac-network'
 require 'mac-network/service'
 
-OSX.require_framework('SystemConfiguration')
+# registers as a valid type for corefoundation gem to use in arrays, etc
+class SystemConfig::SCNetworkSet < CF::Base
+  SystemConfig.attach_function "SCNetworkSetGetTypeID", [], CF.find_type(:cftypeid)
+  @@type_map[SystemConfig.send("SCNetworkSetGetTypeID")] = self
+end
 
 class Mac::Network::Location
   attr_reader :sc_location_ref
 
   def self.all
-    OSX::SCNetworkSetCopyAll(Mac::Network::sc_prefs).map {|l| create({:sc_location_ref => l}) }
+    network_set_refs = SystemConfig::SCNetworkSetCopyAll(Mac::Network::sc_prefs)
+    CF::Array.new(network_set_refs).map {|l| create({:sc_location_ref => l}) }
   end
 
   def self.first
@@ -16,7 +20,7 @@ class Mac::Network::Location
   end
 
   def self.current
-    self.create(:sc_location_ref => OSX::SCNetworkSetCopyCurrent(Mac::Network::sc_prefs))
+    self.create(:sc_location_ref => SystemConfig::SCNetworkSetCopyCurrent(Mac::Network::sc_prefs))
   end
 
   def self.switch_to_location(location_name)
@@ -40,7 +44,7 @@ class Mac::Network::Location
     options = {:sc_location_ref => nil, :name => nil}
     options.merge!(args.pop) unless args.empty?
     if options[:sc_location_ref].nil?
-      @sc_location_ref = OSX::SCNetworkSetCreate(Mac::Network::sc_prefs)
+      @sc_location_ref = SystemConfig::SCNetworkSetCreate(Mac::Network::sc_prefs)
     else
       @sc_location_ref = options[:sc_location_ref]
     end
@@ -52,24 +56,25 @@ class Mac::Network::Location
   end
 
   def select
-    OSX::SCNetworkSetSetCurrent(self.sc_location_ref)
+    SystemConfig::SCNetworkSetSetCurrent(self.sc_location_ref)
   end
 
   def name
-    OSX::SCNetworkSetGetName(self.sc_location_ref)
+    name_ref = SystemConfig::SCNetworkSetGetName(self.sc_location_ref)
+    CF::String.new(name_ref).to_s unless name_ref.null?
   end
 
   def name=(new_name)
-    OSX::SCNetworkSetSetName(self.sc_location_ref, new_name)
+    SystemConfig::SCNetworkSetSetName(self.sc_location_ref, new_name.to_cf)
   end
 
   def add_service(service)
-    OSX::SCNetworkSetAddService(self.sc_location_ref, service.sc_service_ref)
+    SystemConfig::SCNetworkSetAddService(self.sc_location_ref, service.sc_service_ref)
     service
   end
 
   def services
-    OSX::SCNetworkSetCopyServices(self.sc_location_ref).map do |service_ref|
+    CF::Array.new(SystemConfig::SCNetworkSetCopyServices(self.sc_location_ref)).map do |service_ref|
       Service.create(:sc_service_ref => service_ref)
     end.to_a
   end
@@ -82,15 +87,15 @@ class Mac::Network::Location
   end
   
   def contains_interface?(interface)
-    OSX::SCNetworkSetContainsInterface(sc_location_ref, interface.sc_interface_ref)
+    SystemConfig::SCNetworkSetContainsInterface(sc_location_ref, interface.sc_interface_ref)
   end
 
   def set_id
-    OSX::SCNetworkSetGetSetID(sc_location_ref)
+    CF::String.new(SystemConfig::SCNetworkSetGetSetID(sc_location_ref)).to_s
   end
 
   def destroy
-    OSX::SCNetworkSetRemove(sc_location_ref)
+    SystemConfig::SCNetworkSetRemove(sc_location_ref)
   end
 
   def inspect

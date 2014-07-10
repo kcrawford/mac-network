@@ -47,7 +47,7 @@ describe "Mac::Network::Interface" do
 
   describe :new do
     it 'creates an instance with an sc_interface_ref' do
-      interface = Mac::Network::Interface.new(OSX::SCNetworkInterfaceCopyAll().first)
+      interface = Mac::Network::Interface.new(CF::Array.new(SystemConfig::SCNetworkInterfaceCopyAll()).first)
       interface.should be_kind_of(Mac::Network::Interface)
       interface.sc_interface_ref.should_not be_nil
     end

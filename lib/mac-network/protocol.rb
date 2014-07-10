@@ -1,15 +1,20 @@
 require 'mac-network'
 include Mac::Network
 
+class SystemConfig::SCNetworkProtocol < CF::Base
+  SystemConfig.attach_function "SCNetworkProtocolGetTypeID", [], CF.find_type(:cftypeid)
+  @@type_map[SystemConfig.send("SCNetworkProtocolGetTypeID")] = self
+end
+
 class Mac::Network::Protocol
 
-  PROTOCOL_TYPES = [
-    OSX::KSCNetworkProtocolTypeDNS,
-    OSX::KSCNetworkProtocolTypeIPv4,
-    OSX::KSCNetworkProtocolTypeIPv6,
-    OSX::KSCNetworkProtocolTypeProxies,
-    OSX::KSCNetworkProtocolTypeSMB
-  ]
+  #PROTOCOL_TYPES = [
+  #  OSX::KSCNetworkProtocolTypeDNS,
+  #  OSX::KSCNetworkProtocolTypeIPv4,
+  #  OSX::KSCNetworkProtocolTypeIPv6,
+  #  OSX::KSCNetworkProtocolTypeProxies,
+  #  OSX::KSCNetworkProtocolTypeSMB
+  #]
 
   attr_accessor :sc_protocol_ref
 
@@ -18,25 +23,25 @@ class Mac::Network::Protocol
   end
 
   def configuration
-    OSX::SCNetworkProtocolGetConfiguration(self.sc_protocol_ref)
+    CF::Dictionary.new(SystemConfig::SCNetworkProtocolGetConfiguration(sc_protocol_ref)).to_ruby
   end
-  
+
   def configuration=(config)
-    OSX::SCNetworkProtocolSetConfiguration(self.sc_protocol_ref, config)
+    SystemConfig::SCNetworkProtocolSetConfiguration(sc_protocol_ref, config.to_cf)
   end
 
   def protocol_type
-    OSX::SCNetworkProtocolGetProtocolType(self.sc_protocol_ref)
+    CF::String.new(SystemConfig::SCNetworkProtocolGetProtocolType(sc_protocol_ref)).to_ruby
   end
 
   alias :name :protocol_type
 
   def enabled?
-    OSX::SCNetworkProtocolGetEnabled(self.sc_protocol_ref)
+    SystemConfig::SCNetworkProtocolGetEnabled(sc_protocol_ref)
   end
 
   def set_enabled(bool)
-    OSX::SCNetworkProtocolSetEnabled(self.sc_protocol_ref, bool)
+    SystemConfig::SCNetworkProtocolSetEnabled(sc_protocol_ref, bool)
   end
 
   def enable

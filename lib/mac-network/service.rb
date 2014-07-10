@@ -1,14 +1,17 @@
-require 'osx/cocoa'
 require 'mac-network'
 require 'mac-network/interface'
 require 'mac-network/protocol'
 
-OSX.require_framework('SystemConfiguration')
+class SystemConfig::SCNetworkService < CF::Base
+  SystemConfig.attach_function "SCNetworkServiceGetTypeID", [], CF.find_type(:cftypeid)
+  @@type_map[SystemConfig.send("SCNetworkServiceGetTypeID")] = self
+end
 
 class Mac::Network::Service
   attr_reader :sc_service_ref
   def self.all
-    OSX::SCNetworkServiceCopyAll(Mac::Network.sc_prefs).map {|s| self.create({:sc_service_ref => s}) }
+    service_refs = SystemConfig::SCNetworkServiceCopyAll(Mac::Network.sc_prefs)
+    CF::Array.new(service_refs).map {|s| self.create({:sc_service_ref => s}) }
   end
 
   def self.find_by_name(service_name)
@@ -17,10 +20,6 @@ class Mac::Network::Service
 
   def self.first
     all.first
-  end
-
-  def self.current
-    self.create(OSX::SCNetworkServiceCopyCurrent(Mac::Network.sc_prefs))
   end
 
   def self.create(*args)
@@ -32,15 +31,16 @@ class Mac::Network::Service
     options.merge!(args.pop) unless args.empty?
     if options[:sc_service_ref].nil?
       raise "interface required for new service" unless options[:interface]
-      options[:sc_service_ref] = OSX::SCNetworkServiceCreate(Mac::Network.sc_prefs, options[:interface].sc_interface_ref) if sc_service_ref.nil?
+      options[:sc_service_ref] = SystemConfig::SCNetworkServiceCreate(Mac::Network.sc_prefs, options[:interface].sc_interface_ref) if sc_service_ref.nil?
     end
     @sc_service_ref = options[:sc_service_ref]
   end
 
-  OSX::constants.select {|k| k.start_with? "KSCNetworkProtocolType" }.each do |protocol_type|
-    method_name = protocol_type.gsub('KSCNetworkProtocolType','').downcase
+  # creates methods for each protocol type
+  ["DNS", "IPv6", "IPv4", "SMB", "Proxies"].each do |protocol_type|
+    method_name = protocol_type.downcase
     define_method(method_name.to_sym) do
-      protocols.select {|p| p.name == OSX::const_get(protocol_type) }.first
+      protocols.select {|p| p.name == protocol_type }.first
     end
   end
 
@@ -49,19 +49,19 @@ class Mac::Network::Service
   end
 
   def name
-    OSX::SCNetworkServiceGetName(self.sc_service_ref)
+    CF::String.new(SystemConfig::SCNetworkServiceGetName(self.sc_service_ref)).to_s
   end
 
   def name=(new_name)
-    OSX::SCNetworkServiceSetName(self.sc_service_ref, new_name)
+    SystemConfig::SCNetworkServiceSetName(self.sc_service_ref, new_name.to_cf)
   end
 
   def interface
-    Mac::Network::Interface.new(OSX::SCNetworkServiceGetInterface(self.sc_service_ref))
+    Mac::Network::Interface.new(SystemConfig::SCNetworkServiceGetInterface(self.sc_service_ref))
   end
 
   def service_id
-    OSX::SCNetworkServiceGetServiceID(sc_service_ref)
+    CF::String.new(SystemConfig::SCNetworkServiceGetServiceID(sc_service_ref)).to_s
   end
 
   def inspect
@@ -69,15 +69,16 @@ class Mac::Network::Service
   end
 
   def refresh_protocols
-    @protocols_cache = OSX::SCNetworkServiceCopyProtocols(sc_service_ref).map {|p_ref| Mac::Network::Protocol.new(p_ref)}
+    protocol_refs = CF::Array.new(SystemConfig::SCNetworkServiceCopyProtocols(sc_service_ref))
+    @protocols_cache = protocol_refs.map {|p_ref| Mac::Network::Protocol.new(p_ref)}
   end
 
   def protocols
-    @protocols_cache ||= OSX::SCNetworkServiceCopyProtocols(sc_service_ref).map {|p_ref| Mac::Network::Protocol.new(p_ref)}
+    @protocols_cache ||= refresh_protocols
   end
 
   def configure_defaults
-    OSX::SCNetworkServiceEstablishDefaultConfiguration(self.sc_service_ref)
+    SystemConfig::SCNetworkServiceEstablishDefaultConfiguration(self.sc_service_ref)
     refresh_protocols
   end
 

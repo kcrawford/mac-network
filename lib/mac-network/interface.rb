@@ -1,17 +1,22 @@
-require 'osx/cocoa'
 require 'mac-network'
 
-OSX.require_framework('SystemConfiguration')
+# registers as a valid type for corefoundation gem to use in arrays, etc
+class SystemConfig::SCNetworkInterface < CF::Base
+  SystemConfig.attach_function "SCNetworkInterfaceGetTypeID", [], CF.find_type(:cftypeid)
+  @@type_map[SystemConfig.send("SCNetworkInterfaceGetTypeID")] = self
+end
+
 
 class Mac::Network::Interface
   attr_reader :sc_interface_ref
 
   def self.dynamic_store
-    OSX::SCDynamicStoreCreate(nil, "mac-network", nil, nil)
+    SystemConfig::SCDynamicStoreCreate(nil, "mac-network".to_cf, nil, nil)
   end
 
   def self.all
-    OSX::SCNetworkInterfaceCopyAll().map {|l| self.create(l) }.reject {|i| i.name.to_s =~ /BlueTooth/i }
+    interface_refs = SystemConfig::SCNetworkInterfaceCopyAll()
+    CF::Array.new(interface_refs).map {|l| self.create(l) }.reject {|i| i.name.to_s =~ /BlueTooth/i }
   end
 
   def self.all_with_link
@@ -32,12 +37,13 @@ class Mac::Network::Interface
 
   def self.for_default_gateway
     # get the global IPv4 state dictionary from the dynamic store
-    global_ipv4_state = OSX::SCDynamicStoreCopyValue(dynamic_store, "State:/Network/Global/IPv4")
+    global_ipv4_state = SystemConfig::SCDynamicStoreCopyValue(dynamic_store, "State:/Network/Global/IPv4".to_cf)
 
     # if we got a dictionary, use the PrimaryInterface to instantiate our object
     # otherwise return nil
-    if global_ipv4_state.respond_to? :fetch
-      find_by_bsd_name(global_ipv4_state.fetch("PrimaryInterface", ""))
+    if global_ipv4_state
+      bsd_name_for_IPv4 = CF::Dictionary.new(global_ipv4_state).to_ruby.fetch("PrimaryInterface", "")
+      find_by_bsd_name(bsd_name_for_IPv4)
     else
       nil
     end
@@ -60,11 +66,11 @@ class Mac::Network::Interface
   end
 
   def bsd_name
-    OSX::SCNetworkInterfaceGetBSDName(self.sc_interface_ref)
+    CF::String.new(SystemConfig::SCNetworkInterfaceGetBSDName(self.sc_interface_ref)).to_ruby
   end
 
   def name
-    OSX::SCNetworkInterfaceGetLocalizedDisplayName(self.sc_interface_ref).to_s
+    CF::String.new(SystemConfig::SCNetworkInterfaceGetLocalizedDisplayName(self.sc_interface_ref)).to_ruby.to_s
   end
 
   def wired?
@@ -76,20 +82,20 @@ class Mac::Network::Interface
   end
 
   def has_link?
-    link_state = OSX::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/Link")
-    if link_state.nil?
+    link_state = SystemConfig::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/Link".to_cf)
+    if link_state.null?
       false
     else
-      link_state.fetch("Active") == 1
+      CF::Dictionary.new(link_state)["Active"].to_ruby == 1
     end
   end
 
   def has_ip?
-    !!(OSX::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/IPv4"))
+    !!(SystemConfig::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/IPv4".to_cf))
   end
 
   def ip
-    OSX::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/IPv4").fetch("Addresses",[]).first if has_ip?
+    SystemConfig::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/IPv4".to_cf).fetch("Addresses",[]).first if has_ip?
   end
 
 end
