@@ -12,6 +12,24 @@ describe "Mac::Network::Interface" do
     end
   end
 
+  describe 'wired with link' do
+    it 'has link and is wired' do
+      Interface.wired_with_link.each do |i|
+        i.wired?.should be_true
+        i.has_link?.should be_true
+      end
+    end
+  end
+
+  describe 'wireless with link' do
+    it 'has link and is wireless' do
+      Interface.wireless_with_link.each do |i|
+        i.wired?.should be_false
+        i.has_link?.should be_true
+      end
+    end
+  end
+
   describe :first do
     it "returns and instance of itself" do
       Mac::Network::Interface.first.should be_kind_of(Mac::Network::Interface)

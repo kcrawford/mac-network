@@ -57,6 +57,26 @@ class Mac::Network::Interface
     all.select {|i| i.bsd_name == bsd_name }.first
   end
 
+  def self.wired_with_link
+    all_with_link.select {|i| i.wired? }
+  end
+
+  def self.wireless_with_link
+    all_with_link.select {|i| !i.wired? }
+  end
+
+  def self.wireless_with_link_and_ip
+    all_with_link.select {|i| (!i.wired? && i.has_ip?) }
+  end
+
+  def ==(other_interface)
+    if other_interface.respond_to?(:name)
+      other_interface.name == name
+    else
+      false
+    end
+  end
+
   def initialize(sc_interface_ref)
     @sc_interface_ref = sc_interface_ref
   end
@@ -86,7 +106,7 @@ class Mac::Network::Interface
     if link_state.null?
       false
     else
-      CF::Dictionary.new(link_state)["Active"].to_ruby == 1
+      CF::Dictionary.new(link_state)["Active"].to_ruby
     end
   end
 
@@ -96,6 +116,10 @@ class Mac::Network::Interface
 
   def ip
     SystemConfig::SCDynamicStoreCopyValue(self.class.dynamic_store, "State:/Network/Interface/#{bsd_name}/IPv4".to_cf).fetch("Addresses",[]).first if has_ip?
+  end
+
+  def assign_eapol_profile_id(profile_id)
+    SystemConfig::SCNetworkInterfaceSetExtendedConfiguration(sc_interface_ref, "EAPOL", { "SystemProfileID" => profile_id })
   end
 
 end
