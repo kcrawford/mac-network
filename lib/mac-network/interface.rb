@@ -41,11 +41,11 @@ class Mac::Network::Interface
 
     # if we got a dictionary, use the PrimaryInterface to instantiate our object
     # otherwise return nil
-    if global_ipv4_state
+    if global_ipv4_state.null?
+      nil
+    else
       bsd_name_for_IPv4 = CF::Dictionary.new(global_ipv4_state).to_ruby.fetch("PrimaryInterface", "")
       find_by_bsd_name(bsd_name_for_IPv4)
-    else
-      nil
     end
   end
 

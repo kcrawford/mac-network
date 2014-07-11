@@ -7,20 +7,17 @@ end
 class Mac::Network::WiFi
   def self.preferred_network=(network_name)
     raise "Sorry #{network_name} is not in the network list" unless self.network_names.include? network_name
-    config_copy = self.configuration
+    config_copy = configuration
     ruby_array = self.ruby_array_of(config_copy.networkProfiles.allObjects).dup
     ruby_array.sort_by! {|item| (CF::String.new(item.ssid).to_s != network_name) ? 1 : 0 }
+    ruby_array.map! {|item| Objc::CWNetworkProfile.networkProfileWithNetworkProfile(item) }
     new_array = cf_array_of(ruby_array)
     config_copy.setNetworkProfiles(Objc::NSOrderedSet.orderedSetWithArray(new_array))
-
-    # ########## !!!!!!!!!!!!
-    puts "here comes the crash..."
-    self.interface.commitConfiguration(config_copy, { authorization: FFI::Pointer.new(0), error: FFI::Pointer.new(0) } )
-    # ########## !!!!!!!!!!!!
+    self.interface.commitConfiguration(config_copy, { authorization: nil, error: nil } )
   end
 
   def self.preferred_network
-    CF::String.new(first).to_s
+    CF::String.new(first.ssid).to_s
   end
 
   def self.first

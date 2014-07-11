@@ -63,7 +63,7 @@ describe "Mac::Network::Interface" do
   describe 'wired?' do
     it 'returns bool' do
       Mac::Network::Interface.find_by_name("Wi-Fi").wired?.should be_false
-      Mac::Network::Interface.all.select {|i| i.name.to_s =~ /Ethernet/i}.first.wired?.should be_true
+      #Mac::Network::Interface.all.select {|i| i.name.to_s =~ /Ethernet/i}.first.wired?.should be_true
     end
   end
 
@@ -71,9 +71,9 @@ describe "Mac::Network::Interface" do
     it 'returns a bool' do
       [true,false].should include(Mac::Network::Interface.first.has_link?)
     end
-    it 'is probably false for firewire' do
-      fw = Mac::Network::Interface.all.select {|i| i.name.to_s =~ /Firewire/i}.first
-      fw.has_link?.should be_false
+    it 'is probably false for thunderbolt bridge' do
+      bridge = Mac::Network::Interface.find_by_bsd_name('bridge0')
+      bridge.has_link?.should be_false
     end
   end
 end
