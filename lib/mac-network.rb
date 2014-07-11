@@ -7,6 +7,8 @@ module SystemConfig
   ffi_lib '/System/Library/Frameworks/SystemConfiguration.framework/Versions/Current/SystemConfiguration'
 
   attach_function :SCPreferencesCreate, [:pointer, :pointer, :pointer], :pointer
+  attach_function :SCPreferencesCommitChanges, [:pointer], :bool
+  attach_function :SCPreferencesApplyChanges, [:pointer], :bool
 
   # Dynamic Preferences Store
   attach_function :SCDynamicStoreCreate, [:pointer, :pointer, :pointer, :pointer], :pointer
@@ -16,6 +18,7 @@ module SystemConfig
   attach_function :SCNetworkSetCopyAll, [:pointer], :pointer
   attach_function :SCNetworkSetCopyCurrent, [:pointer], :pointer
   attach_function :SCNetworkSetSetCurrent, [:pointer], :bool
+  attach_function :SCNetworkSetGetSetID, [:pointer], :pointer
   attach_function :SCNetworkSetGetName, [:pointer], :pointer
   attach_function :SCNetworkSetCreate, [:pointer], :pointer
   attach_function :SCNetworkSetRemove, [:pointer], :bool
@@ -38,6 +41,7 @@ module SystemConfig
   attach_function :SCNetworkInterfaceCopyAll, [], :pointer
   attach_function :SCNetworkInterfaceGetBSDName, [:pointer], :pointer
   attach_function :SCNetworkInterfaceGetLocalizedDisplayName, [:pointer], :pointer
+  attach_function :SCNetworkInterfaceSetExtendedConfiguration, [:pointer, :pointer, :pointer], :bool
 
   # Protocols
   attach_function :SCNetworkProtocolGetConfiguration, [:pointer], :pointer
@@ -69,8 +73,8 @@ module Mac
     end
 
     def self.save_configuration!
-      OSX::SCPreferencesCommitChanges(sc_prefs)
-      OSX::SCPreferencesApplyChanges(sc_prefs)
+      SystemConfig.SCPreferencesCommitChanges(sc_prefs)
+      SystemConfig.SCPreferencesApplyChanges(sc_prefs)
     end
 
   end
