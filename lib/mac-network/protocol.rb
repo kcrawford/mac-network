@@ -8,15 +8,9 @@ end
 
 class Mac::Network::Protocol
 
-  #PROTOCOL_TYPES = [
-  #  OSX::KSCNetworkProtocolTypeDNS,
-  #  OSX::KSCNetworkProtocolTypeIPv4,
-  #  OSX::KSCNetworkProtocolTypeIPv6,
-  #  OSX::KSCNetworkProtocolTypeProxies,
-  #  OSX::KSCNetworkProtocolTypeSMB
-  #]
-
   attr_accessor :sc_protocol_ref
+
+  PROTOCOL_TYPES = ["DNS", "IPv6", "IPv4", "SMB", "Proxies"]
 
   def initialize(sc_protocol_ref)
     @sc_protocol_ref = sc_protocol_ref

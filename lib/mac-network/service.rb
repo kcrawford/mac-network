@@ -37,7 +37,7 @@ class Mac::Network::Service
   end
 
   # creates methods for each protocol type
-  ["DNS", "IPv6", "IPv4", "SMB", "Proxies"].each do |protocol_type|
+  Mac::Network::Protocol::PROTOCOL_TYPES.each do |protocol_type|
     method_name = protocol_type.downcase
     define_method(method_name.to_sym) do
       protocols.select {|p| p.name == protocol_type }.first
