@@ -119,7 +119,7 @@ class Mac::Network::Interface
   end
 
   def assign_eapol_profile_id(profile_id)
-    SystemConfig::SCNetworkInterfaceSetExtendedConfiguration(sc_interface_ref, "EAPOL", { "SystemProfileID" => profile_id })
+    SystemConfig::SCNetworkInterfaceSetExtendedConfiguration(sc_interface_ref, "EAPOL".to_cf, { "SystemProfileID" => profile_id }.to_cf)
   end
 
 end
