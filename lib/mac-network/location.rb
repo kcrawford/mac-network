@@ -1,7 +1,23 @@
 require 'mac-network'
 require 'mac-network/service'
 
+#    * TDD *    #
+# for Objc, what we want is...
+#   We load a framework
+#   We find out what types exist in the framework <cftype> and create those classes
+#   These classes will inherit from CF::Base
+#   The functions are attached with correct number and types of arguments
+#   The return type of the function is determined and is somehow cast into the correct ruby type when returned
+#     see how it is done in the CF::Array in corefoundation
+#     and also see where we can hook in in ffi_objc
+#     we may need a layer on top of attach_function so that we can call that and then typecast the result
+#   The constants are registered under the framework using BridgeSupport data if it is available
+#     not sure how to access constants yet
+#   
+#
+#
 # registers as a valid type for corefoundation gem to use in arrays, etc
+# This allows corefoundation gem to wrap a cocoa object instance in a ruby object instance of this class
 class SystemConfig::SCNetworkSet < CF::Base
   SystemConfig.attach_function "SCNetworkSetGetTypeID", [], CF.find_type(:cftypeid)
   @@type_map[SystemConfig.send("SCNetworkSetGetTypeID")] = self
