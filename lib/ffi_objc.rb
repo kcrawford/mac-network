@@ -100,7 +100,7 @@ module Objc
     
     def objc_signature_to_ffi_type(signature)
       case signature
-      when '@','#',':', '^@' then :pointer
+      when '@','#',':', '^@', 'o^@' then :pointer
       when '*', 'r*' then :string
       when 'c'  then :char
       when 'C'  then :uchar
