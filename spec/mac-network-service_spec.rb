@@ -92,9 +92,9 @@ describe "Mac::Network::Service" do
       service.configure_defaults
       protocol = service.protocols.first
       protocol.enable
-      protocol.enabled?.should be_true
+      protocol.enabled?.should be_truthy
       service.disable_all_protocols
-      protocol.enabled?.should be_false
+      protocol.enabled?.should be_falsey
     end
   end
 

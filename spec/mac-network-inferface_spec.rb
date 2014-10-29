@@ -15,8 +15,8 @@ describe "Mac::Network::Interface" do
   describe 'wired with link' do
     it 'has link and is wired' do
       Interface.wired_with_link.each do |i|
-        i.wired?.should be_true
-        i.has_link?.should be_true
+        i.wired?.should be_truthy
+        i.has_link?.should be_truthy
       end
     end
   end
@@ -24,8 +24,8 @@ describe "Mac::Network::Interface" do
   describe 'wireless with link' do
     it 'has link and is wireless' do
       Interface.wireless_with_link.each do |i|
-        i.wired?.should be_false
-        i.has_link?.should be_true
+        i.wired?.should be_falsey
+        i.has_link?.should be_truthy
       end
     end
   end
@@ -50,7 +50,8 @@ describe "Mac::Network::Interface" do
 
   describe :for_default_gateway do
     it 'returns the interface used as the default gateway' do
-      shelled_out_bsd_name = `netstat -arn | grep default`.gsub(/.* /,'').rstrip
+      skip("Skipped test on vpn") if `netstat -arn | grep default`.include?("utun")
+      shelled_out_bsd_name = `netstat -arn | grep default | grep -v utun`.gsub(/.* /,'').rstrip
       Mac::Network::Interface.for_default_gateway.bsd_name.should == shelled_out_bsd_name
     end
   end
@@ -58,7 +59,7 @@ describe "Mac::Network::Interface" do
   describe :all_with_link do
     it 'lists only interfaces with link' do
       Mac::Network::Interface.all_with_link.each do |i|
-        i.has_link?.should be_true
+        i.has_link?.should be_truthy
       end
     end
   end
@@ -80,8 +81,8 @@ describe "Mac::Network::Interface" do
 
   describe 'wired?' do
     it 'returns bool' do
-      Mac::Network::Interface.find_by_name("Wi-Fi").wired?.should be_false
-      #Mac::Network::Interface.all.select {|i| i.name.to_s =~ /Ethernet/i}.first.wired?.should be_true
+      Mac::Network::Interface.find_by_name("Wi-Fi").wired?.should be_falsey
+      #Mac::Network::Interface.all.select {|i| i.name.to_s =~ /Ethernet/i}.first.wired?.should be_truthy
     end
   end
 
@@ -91,7 +92,7 @@ describe "Mac::Network::Interface" do
     end
     it 'is probably false for thunderbolt bridge' do
       bridge = Mac::Network::Interface.find_by_bsd_name('bridge0')
-      bridge.has_link?.should be_false
+      bridge.has_link?.should be_falsey
     end
   end
 end

@@ -48,11 +48,11 @@ describe "Protocol" do
     describe "enable" do
       it 'enables' do
         @protocol.disable
-        @protocol.enabled?.should be_false
+        @protocol.enabled?.should be_falsey
         @protocol.enable
-        @protocol.enabled?.should be_true
+        @protocol.enabled?.should be_truthy
         @protocol.disable
-        @protocol.enabled?.should be_false
+        @protocol.enabled?.should be_falsey
       end
     end
   end

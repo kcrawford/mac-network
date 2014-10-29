@@ -33,7 +33,7 @@ describe "Mac::Network::Location" do
     end
 
     it 'returns false if location does not exist' do
-      Mac::Network::Location.switch_to_location('q24q52532452345236265235124').should be_false
+      Mac::Network::Location.switch_to_location('q24q52532452345236265235124').should be_falsey
     end
   end
 
@@ -61,8 +61,8 @@ describe "Mac::Network::Location" do
     it 'returns true or false based on provided name' do
       location = Mac::Network::Location.new
       location.name = "foo"
-      Mac::Network::Location.exists?("foo").should be_true
-      Mac::Network::Location.exists?("bar").should be_false
+      Mac::Network::Location.exists?("foo").should be_truthy
+      Mac::Network::Location.exists?("bar").should be_falsey
     end
   end
 
@@ -94,7 +94,7 @@ describe "Mac::Network::Location" do
       location = Mac::Network::Location.new
       service = location.add_service(Mac::Network::Service.new(:interface => Mac::Network::Interface.first))
       location.services.first.should be_kind_of(Mac::Network::Service)
-      location.services.should have(1).items
+      location.services.length.should eq(1)
     end
   end
 
@@ -103,13 +103,13 @@ describe "Mac::Network::Location" do
       @location = Mac::Network::Location.new
     end
     it 'false if not there' do
-      @location.has_service?("Ethernet").should be_false
+      @location.has_service?("Ethernet").should be_falsey
     end
     it 'true if has it' do
       service = Mac::Network::Service.new(:interface => Mac::Network::Interface.first)
       service.name = "Blah Blah"
       @location.add_service(service)
-      @location.has_service?("Blah Blah").should be_true
+      @location.has_service?("Blah Blah").should be_truthy
     end
   end
 
